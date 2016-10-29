@@ -42,7 +42,11 @@ void setPixel(int x, int y, float red, float green, float blue) {
 	if (y < 0 || y >= texture->texHeight || x < 0 || x >= texture->texWidth) {
 		return;
 	}
+#if OPENGL
+	image[y * texture->texWidth + x] = 0xff << 24 | b << 16 | g << 8 | r;
+#else
 	image[y * texture->texWidth + x] = 0xff << 24 | r << 16 | g << 8 | b;
+#endif
 }
 
 Image* loadImage(const char* filename) {
