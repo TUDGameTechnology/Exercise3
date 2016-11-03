@@ -1,6 +1,5 @@
 #include "pch.h"
 
-#include <Kore/Application.h>
 #include <Kore/IO/FileReader.h>
 #include <Kore/Math/Core.h>
 #include <Kore/System.h>
@@ -73,24 +72,24 @@ namespace {
 		}
 	}
 
-	void mouseMove(int x, int y, int movementX, int movementY) {
+	void mouseMove(int window, int x, int y, int movementX, int movementY) {
 
 	}
 	
-	void mousePress(int button, int x, int y) {
+	void mousePress(int window, int button, int x, int y) {
 
 	}
 
-	void mouseRelease(int button, int x, int y) {
+	void mouseRelease(int window, int button, int x, int y) {
 
 	}
 }
 
 int kore(int argc, char** argv) {
-	Application* app = new Application(argc, argv, width, height, 0, false, "Exercise3");
-	
+	Kore::System::init("Exercise 3", width, height);
+
 	initGraphics();
-	app->setCallback(update);
+	Kore::System::setCallback(update);
 
 	startTime = System::time();
 	Kore::Mixer::init();
@@ -105,9 +104,7 @@ int kore(int argc, char** argv) {
 	Mouse::the()->Press = mousePress;
 	Mouse::the()->Release = mouseRelease;
 
-	app->start();
-
-	delete app;
+	Kore::System::start();
 	
 	return 0;
 }
