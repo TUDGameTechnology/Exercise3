@@ -5,9 +5,13 @@
 #include <Kore/System.h>
 #include <Kore/Input/Keyboard.h>
 #include <Kore/Input/Mouse.h>
-#include <Kore/Audio/Mixer.h>
-#include "SimpleGraphics.h"
+#include <Kore/Audio1/Audio.h>
+#include <Kore/Graphics1/Graphics.h>
+#include "GraphicsHelper.h"
 #include "ObjLoader.h"
+
+const int width = 512;
+const int height = 512;
 
 using namespace Kore;
 
@@ -17,11 +21,10 @@ namespace {
 
 	void update() {
 		float t = (float)(System::time() - startTime);
-		Kore::Audio::update();
+		Kore::Audio2::update();
 		
-		startFrame();
-
-		clear(0, 0, 0);
+		Graphics1::begin();
+		clear(0.0f, 0.0f, 0.0f);
 		
 		/************************************************************************/
 		/* Exercise 3 Practical Task 1                                          */
@@ -55,19 +58,19 @@ namespace {
 				x3 * 2000 + 600, y3 * 2000 + 600);
 			}
 
-		endFrame();
+		Graphics1::end();
 	}
 
-	void keyDown(KeyCode code, wchar_t character) {
-		if (code == Key_Left) {
+	void keyDown(KeyCode code) {
+		if (code == KeyLeft) {
 			/************************************************************************/
 			/* Use the keyboard input to control the transformations                */
 			/************************************************************************/
 		}
 	}
 
-	void keyUp(KeyCode code, wchar_t character) {
-		if (code == Key_Left) {
+	void keyUp(KeyCode code) {
+		if (code == KeyLeft) {
 			// ...
 		}
 	}
@@ -86,15 +89,15 @@ namespace {
 }
 
 int kore(int argc, char** argv) {
-	Kore::System::init("Exercise 3", width, height);
+	System::init("Exercise 3", width, height);
 
-	initGraphics();
+	Graphics1::init(width, height);
 	Kore::System::setCallback(update);
 
 	startTime = System::time();
-	Kore::Mixer::init();
-	Kore::Audio::init();
-	//Kore::Mixer::play(new SoundStream("back.ogg", true));
+	
+	Kore::Audio2::init();
+	Kore::Audio1::init();
 
 	mesh = loadObj("bunny.obj");
 
