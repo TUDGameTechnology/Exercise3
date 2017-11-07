@@ -3,36 +3,40 @@
 #include <Kore/IO/FileReader.h>
 #include <cstring>
 #include <cstdlib>
+#include <assert.h>
 
 using namespace Kore;
 
 namespace {
-	char* tokenize(char* s, char delimiter, int& i) {
+	const int maxTokenLength = 256;
+
+	void tokenize(char* s, char delimiter, int& i, char* token) {
 		int lastIndex = i;
 		char* index = strchr(s + lastIndex + 1, delimiter);
 		if (index == nullptr) {
-			return nullptr;
+			token[0] = 0;
+			return;
 		}
 		int newIndex = (int)(index - s);
 		i = newIndex;
 		int length = newIndex - lastIndex;
-		char* token = new char[length + 1];
+		assert(length < maxTokenLength);
 		strncpy(token, s + lastIndex + 1, length);
 		token[length] = 0;
-		return token;
 	}
 
 	int countFirstCharLines(char* source, const char* start) {
 		int count = 0;
 
 		int index = 0;
-		char* line = tokenize(source, '\n', index);
+		char line[maxTokenLength];
+		tokenize(source, '\n', index, line);
 
-		while (line != nullptr) {
+		while (line[0] != 0) {
 			char *pch = strstr(line, start);
 			if (pch == line)
 				count++;
-			line = tokenize(source, '\n', index);
+			tokenize(source, '\n', index, line);
 		}
 		return count;
 	}
@@ -59,13 +63,14 @@ namespace {
 		int count = 0;
 
 		int index = 0;
-		char* line = tokenize(source, '\n', index);
+		char line[maxTokenLength];
+		tokenize(source, '\n', index, line);
 
-		while (line != nullptr) {
+		while (line[0] != 0) {
 			if (line[0] == 'f') {
 				count += countFacesInLine(line);
 			}
-			line = tokenize(source, '\n', index);
+			tokenize(source, '\n', index, line);
 		}
 		return count;
 	}
@@ -179,7 +184,7 @@ Mesh* loadObj(const char* filename) {
 	void* data = fileReader.readAll();
 	int length = fileReader.size() + 1;
 	char* source = new char[length];
-	for (int i = 0; i < length; ++i) source[i] = reinterpret_cast<char*>(data)[i];
+	memcpy(source, data, length);
 	source[length] = 0;
 	
 	Mesh* mesh = new Mesh;
@@ -198,12 +203,12 @@ Mesh* loadObj(const char* filename) {
 	mesh->numFaces = 0;
 	
 	int index = 0;
-	char* line = tokenize(source, '\n', index);
+	char line[maxTokenLength];
+	tokenize(source, '\n', index, line);
 	
-	while (line != nullptr) {
+	while (line[0] != 0) {
 		parseLine(mesh, line);
-		delete[] line;
-		line = tokenize(source, '\n', index);
+		tokenize(source, '\n', index, line);
 	}
 
 	return mesh;
