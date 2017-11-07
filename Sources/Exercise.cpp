@@ -52,10 +52,11 @@ namespace {
 			float z3 = mesh->vertices[i3 * 5 + 2];
 
 			// Draw the triangle
+			float drawScale = 1024;
 			drawTriangle(
-				x1 * 2000 + 600, y1 * 2000 + 600,
-				x2 * 2000 + 600, y2 * 2000 + 600,
-				x3 * 2000 + 600, y3 * 2000 + 600);
+				x1 * drawScale + width / 2, y1 * drawScale + height / 2,
+				x2 * drawScale + width / 2, y2 * drawScale + height / 2,
+				x3 * drawScale + width / 2, y3 * drawScale + height / 2);
 			}
 
 		Graphics1::end();
