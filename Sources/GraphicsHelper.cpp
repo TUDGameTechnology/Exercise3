@@ -7,6 +7,7 @@
 #include <Kore/Graphics4/Graphics.h>
 #include <Kore/Math/Core.h>
 #include <limits>
+#include <string.h>
 
 using namespace Kore;
 
