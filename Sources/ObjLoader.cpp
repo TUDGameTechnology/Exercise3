@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ObjLoader.h"
+#include "Memory.h"
 #include <Kore/IO/FileReader.h>
 #include <cstring>
 #include <cstdlib>
@@ -183,20 +184,20 @@ Mesh* loadObj(const char* filename) {
 	FileReader fileReader(filename, FileReader::Asset);
 	void* data = fileReader.readAll();
 	int length = fileReader.size() + 1;
-	char* source = new char[length];
+	char* source = Memory::scratchPad<char>(length);
 	memcpy(source, data, length);
 	source[length] = 0;
 	
-	Mesh* mesh = new Mesh;
+	Mesh* mesh = Memory::allocate<Mesh>();
 
 	int vertices = countVertices(source);
-	mesh->vertices = new float[vertices * 5];
+	mesh->vertices = Memory::allocate<float>(vertices * 5);
 	mesh->curVertex = mesh->vertices;
 	int faces = countFaces(source);
-	mesh->indices = new int[faces * 3];
+	mesh->indices = Memory::allocate<int>(faces * 3);
 	mesh->curIndex = mesh->indices;
 	mesh->numUVs = countUVs(source);
-	mesh->uvs = new float[mesh->numUVs * 2];
+	mesh->uvs = Memory::allocate<float>(mesh->numUVs * 2);
 	mesh->curUV = mesh->uvs;
 	
 	mesh->numVertices = 0;

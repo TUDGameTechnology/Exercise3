@@ -8,6 +8,7 @@
 #include <Kore/Audio1/Audio.h>
 #include <Kore/Graphics1/Graphics.h>
 #include "GraphicsHelper.h"
+#include "Memory.h"
 #include "ObjLoader.h"
 
 const int width = 512;
@@ -100,6 +101,7 @@ int kore(int argc, char** argv) {
 	Kore::Audio2::init();
 	Kore::Audio1::init();
 
+	Memory::init();
 	mesh = loadObj("bunny.obj");
 
 	Keyboard::the()->KeyDown = keyDown;
