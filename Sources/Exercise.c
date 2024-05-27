@@ -18,8 +18,7 @@ struct Mesh* mesh;
 
 void update(void* data) {
 	float t = (float)(kinc_time() - start_time);
-	kinc_a2_update();
-	
+
 	kinc_g1_begin();
 	clear(0.0f, 0.0f, 0.0f);
 	
@@ -92,8 +91,6 @@ int kickstart(int argc, char** argv) {
 	kinc_set_update_callback(update, NULL);
 
 	start_time = kinc_time();
-	
-	kinc_a1_init();
 
 	memory_init();
 	mesh = load_obj("bunny.obj");
