@@ -16,7 +16,7 @@ const int height = 512;
 double start_time;
 struct Mesh* mesh;
 
-void update() {
+void update(void* data) {
 	float t = (float)(kinc_time() - start_time);
 	kinc_a2_update();
 	
