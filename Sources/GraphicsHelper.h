@@ -5,11 +5,7 @@
 // Clears the screen to a single color
 void clear(float red, float green, float blue);
 
-// Loads and returns an image using memory_allocate().
-// Also sets the width and height parameters to the image dimensions.
-void load_image(const char* filename, uint8_t* memory, int* image_width, int* image_height);
-
-// Draws 32-bit RGBA pixels (for examples the ones loaded via load_image)
+// Draws 32-bit RGBA pixels (for examples the ones loaded via kinc_image_init_from_file())
 void draw_image(uint8_t* image, int image_width, int image_height, int x, int y);
 
 // Draws a beautiful, red triangle

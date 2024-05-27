@@ -19,13 +19,6 @@ void clear(float red, float green, float blue) {
 	}
 }
 
-void load_image(const char* filename, uint8_t* memory, int* image_width, int* image_height) {
-	kinc_image_t image;
-	kinc_image_init_from_file(&image, memory, filename);
-	*image_width = image.width;
-	*image_height = image.height;
-}
-
 int read_pixel(uint8_t* image, int image_width, int image_height, int x, int y) {
 	uint32_t c = image[image_width * 4 * y + x * 4];
 	int a = (c >> 24) & 0xff;
