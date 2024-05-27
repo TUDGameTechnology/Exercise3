@@ -10,8 +10,8 @@
 #include "Memory.h"
 #include "ObjLoader.h"
 
-const int width = 512;
-const int height = 512;
+#define WIDTH 512
+#define HEIGHT 512
 
 double start_time;
 struct Mesh* mesh;
@@ -51,9 +51,9 @@ void update(void* data) {
 		// Draw the triangle
 		float draw_scale = 1024;
 		draw_triangle(
-			x1 * draw_scale + width / 2, y1 * draw_scale + height / 2,
-			x2 * draw_scale + width / 2, y2 * draw_scale + height / 2,
-			x3 * draw_scale + width / 2, y3 * draw_scale + height / 2);
+			x1 * draw_scale + WIDTH / 2, y1 * draw_scale + HEIGHT / 2,
+			x2 * draw_scale + WIDTH / 2, y2 * draw_scale + HEIGHT / 2,
+			x3 * draw_scale + WIDTH / 2, y3 * draw_scale + HEIGHT / 2);
 	}
 
 	kinc_g1_end();
@@ -86,9 +86,9 @@ void mouse_release(int window, int button, int x, int y, void* data) {
 }
 
 int kickstart(int argc, char** argv) {
-	kinc_init("Exercise 3", width, height, NULL, NULL);
+	kinc_init("Exercise 3", WIDTH, HEIGHT, NULL, NULL);
 
-	kinc_g1_init(width, height);
+	kinc_g1_init(WIDTH, HEIGHT);
 	kinc_set_update_callback(update, NULL);
 
 	start_time = kinc_time();
